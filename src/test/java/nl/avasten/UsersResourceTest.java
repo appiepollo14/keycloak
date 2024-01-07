@@ -21,7 +21,7 @@ class UsersResourceTest {
         given().auth().oauth2(getAccessToken("alice", Set.of("user")))
                 .when().get("/api/users/me")
                 .then()
-                .statusCode(200).body(equalTo("Access for subject alice is granted."));
+                .statusCode(200).body(equalTo("Access for name alice is granted."));
     }
 
     @Test
@@ -29,7 +29,15 @@ class UsersResourceTest {
         given().auth().oauth2(getAccessToken("alice", Set.of("henk")))
                 .when().get("/api/users/me")
                 .then()
-                .statusCode(200).body(equalTo("Access for subject alice is granted."));
+                .statusCode(200).body(equalTo("Access for name alice is granted."));
+    }
+
+    @Test
+    void testSubjectEndpoint() {
+        given().auth().oauth2(getAccessToken("alice", Set.of("henk")))
+                .when().get("/api/users/subject")
+                .then()
+                .statusCode(200).body(equalTo("Access for subject 123456 is granted."));
     }
 
     @Test

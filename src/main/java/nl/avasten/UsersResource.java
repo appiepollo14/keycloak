@@ -19,6 +19,12 @@ public class UsersResource {
     @GET
     @Path("/me")
     public String me() {
-        return "Access for subject " + jsonWebToken.getName() + " is granted.";
+        return "Access for name " + jsonWebToken.getName() + " is granted.";
+    }
+
+    @GET
+    @Path("/subject")
+    public String getSubject() {
+        return "Access for subject " + jsonWebToken.getSubject() + " is granted.";
     }
 }
