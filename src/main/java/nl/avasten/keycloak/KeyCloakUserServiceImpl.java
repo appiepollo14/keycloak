@@ -2,6 +2,7 @@ package nl.avasten.keycloak;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UserResource;
@@ -15,6 +16,9 @@ public class KeyCloakUserServiceImpl implements KeyCloakUserService {
 
     @Inject
     Keycloak keycloak;
+
+    @ConfigProperty(name = "keycloak.administer.realm")
+    String realm;
 
     @Override
     public UserRepresentation getUserRepresentationById(String userId) {
@@ -32,7 +36,7 @@ public class KeyCloakUserServiceImpl implements KeyCloakUserService {
     }
 
     private UsersResource getUsersResource() {
-        RealmResource realm1 = keycloak.realm("quarkus");
+        RealmResource realm1 = keycloak.realm(realm);
         return realm1.users();
     }
 

@@ -2,6 +2,7 @@ package nl.avasten.keycloak;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.resteasy.reactive.client.api.WebClientApplicationException;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.RoleMappingResource;
@@ -21,8 +22,8 @@ public class KeyCloakRoleServiceImpl implements KeycloakRoleService {
     @Inject
     KeyCloakUserService keyCloakUserService;
 
-    //    @ConfigProperty
-    String realm = "quarkus";
+    @ConfigProperty(name = "keycloak.administer.realm")
+    String realm;
 
     @Override
     public void assignRole(String userId, String roleName) {
@@ -39,9 +40,24 @@ public class KeyCloakRoleServiceImpl implements KeycloakRoleService {
         } catch (WebClientApplicationException e) {
             System.out.println("Role not found!");
         }
-
     }
 
+    @Override
+    public void removeRole(String userId, String roleName) {
+        UserResource userResource = keyCloakUserService.getUserResourceById(userId);
+        RolesResource rolesResource = getRolesResource();
+        try {
+            RoleRepresentation representation = rolesResource.get(roleName).toRepresentation();
+            RoleMappingResource currentRoles = userResource.roles();
+            if (!currentRoles.getAll().getRealmMappings().contains(representation)) {
+                System.out.println("User doesn't has role: " + roleName + " !");
+            } else {
+                userResource.roles().realmLevel().remove(Collections.singletonList(representation));
+            }
+        } catch (WebClientApplicationException e) {
+            System.out.println("Role not found!");
+        }
+    }
 
     @Override
     public List<RoleRepresentation> getRoles() {

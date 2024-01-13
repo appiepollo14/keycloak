@@ -1,12 +1,12 @@
-package nl.avasten;
+package nl.avasten.keycloak;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
-import nl.avasten.keycloak.KeyCloakUserService;
-import nl.avasten.keycloak.KeycloakRoleService;
+import nl.avasten.keycloak.dto.AddRoleToUserRequest;
+import nl.avasten.keycloak.dto.RemoveRoleFromUserRequest;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 
@@ -33,10 +33,17 @@ public class KeyCloakAdminResource {
         return keyCloakUserService.getUsers();
     }
 
-    @GET
+    @POST
     @Path("/administerRole")
-    public Response addRoleToUser(@QueryParam("roleName") String roleName, @QueryParam("userId") String userId) {
-        keycloakRoleService.assignRole(userId, roleName);
+    public Response addRoleToUser(AddRoleToUserRequest request) {
+        keycloakRoleService.assignRole(request.userId(), request.roleName());
+        return Response.accepted().build();
+    }
+
+    @POST
+    @Path("/removeRole")
+    public Response removeRoleFromUser(RemoveRoleFromUserRequest request) {
+        keycloakRoleService.removeRole(request.userId(), request.roleName());
         return Response.accepted().build();
     }
 

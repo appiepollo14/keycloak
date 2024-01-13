@@ -8,5 +8,7 @@ public interface KeycloakRoleService {
 
     void assignRole(String userId,String roleName);
 
+    void removeRole(String userId,String roleName);
+
     List<RoleRepresentation> getRoles();
 }

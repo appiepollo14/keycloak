@@ -11,6 +11,5 @@ public interface KeyCloakUserService {
 
     UserResource getUserResourceById(String userId);
 
-
     List<UserRepresentation> getUsers();
 }
