@@ -14,7 +14,7 @@ import org.jboss.resteasy.reactive.NoCache;
 public class UsersResource {
 
     @Inject
-    private JsonWebToken jsonWebToken;
+    JsonWebToken jsonWebToken;
 
     @GET
     @Path("/me")
