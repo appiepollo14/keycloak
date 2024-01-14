@@ -1,5 +1,6 @@
 package nl.avasten.keycloak;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
@@ -22,6 +23,9 @@ public class KeyCloakAdminResource {
 
     @Inject
     KeycloakRoleService keycloakRoleService;
+
+    @Inject
+    KeyCloakTokenService tokenService;
 
     @GET
     @Path("/roles")
@@ -47,6 +51,13 @@ public class KeyCloakAdminResource {
     public Response removeRoleFromUser(RemoveRoleFromUserRequest request) {
         keycloakRoleService.removeRole(request.userId(), request.roleName());
         return Response.accepted().build();
+    }
+
+    @GET
+    @Path("/test")
+    @PermitAll
+    public String test() {
+        return tokenService.getFUNUserToken();
     }
 
 }
