@@ -119,7 +119,7 @@
       },
       {
         "id": "a2d1e62a-2ee8-42b3-ab2f-8b1a8fd97ad4",
-        "name": "ADMIN",
+        "name": "MRK_ADMIN",
         "description": "",
         "composite": false,
         "clientRole": false,
@@ -2430,7 +2430,7 @@
       ],
       "requiredActions": [],
       "realmRoles": [
-        "user"
+        "user", "MRK_ADMIN"
       ],
       "notBefore": 0,
       "groups": []

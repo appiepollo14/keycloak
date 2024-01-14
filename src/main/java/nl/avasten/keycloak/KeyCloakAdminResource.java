@@ -1,5 +1,6 @@
 package nl.avasten.keycloak;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -13,6 +14,7 @@ import org.keycloak.representations.idm.UserRepresentation;
 import java.util.List;
 
 @Path("/api/v1/keycloak")
+@RolesAllowed("MRK_ADMIN")
 public class KeyCloakAdminResource {
 
     @Inject
